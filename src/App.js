@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+
+const BusinessSolverButton = (props) => {
+  const { length } = props;
+
+  return (
+    <button
+      className="busSolverButton"
+      type="button"
+    >
+      Button # {length + 1}
+    </button>
+  );
+};
+
+const BusinessSolverForm = () => {
+  const [inputList, setInputList] = useState([]);
+
+  const addAnotherButton = (event) => {
+    setInputList(inputList.concat(<BusinessSolverButton key={inputList.length} length={inputList.length} />));
+  };
+
+  return (
+    <div>
+      <button onClick={addAnotherButton}>Add a button</button>
+      <div>
+        {inputList}
+      </div>
+    </div>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BusinessSolverForm />
+  )
 }
 
 export default App;
