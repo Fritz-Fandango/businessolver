@@ -1,3 +1,12 @@
+.container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.locaseWrapper {
+  display: flexbox;
+}
+
 .busSolverButton {
   border: 0;
   line-height: 2.5;
