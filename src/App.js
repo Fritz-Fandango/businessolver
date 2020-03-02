@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react'
 import './App.scss';
 
 /**
@@ -8,75 +8,67 @@ import './App.scss';
  *
  */
 
-function App() {
-  const [countLog, setCountLog] = useState(0);
+const App = () => {
+  // Setting states
+  const [currentCount, setCurrentCount] = useState(0);
 
-  const [inputList, setInputList] = useState([]);
+	const [ buttons, setButtons ] = useState([])
 
-  const BusinessSolverButton = (props) => {
-    const { buttonNumber } = props;
+	// Create and delete operations
+	const addButton = () => {
+    setCurrentCount(currentCount + 1);
 
-    const [clickCount, setClickCount] = useState(0);
+    const button = {
+      id: currentCount,
+      number: currentCount,
+      numClicks: 0
+    }
 
-    return (
-      <div>
-        <button
-          className="busSolverButton"
-          onClick={() => setClickCount(clickCount + 1)}
-          type="button"
-        >
-          {`Button: ${buttonNumber} Clicks: ${clickCount}`}
-        </button>
-      </div>
-    );
-  };
+		setButtons([...buttons, button]);
+	}
 
-  const addAnotherButton = () => {
-    setCountLog(countLog + 1);
+  const updateClickCount = (id) => {
+    buttons.filter((button) => ((button.id === id) ? button.numClicks++ : button.numClicks))
 
-    setInputList(inputList.concat(
-      <BusinessSolverButton
-        buttonNumber={countLog}
-        numClicks={0}
-      />
-    ));
-  };
-
-  const handleDeleteButton = (idx) => {
-    const updatedList = inputList.filter((elem, index) => idx !== index);
-
-    setInputList(updatedList);
+    setButtons([...buttons])
   }
 
-  return (
+  const deleteButton = (id) => {
+		setButtons(buttons.filter(button => button.id !== id))
+	}
+
+	return (
     <div>
-      <button
-        onClick={addAnotherButton}
-      >
-        Add a button
-      </button>
-      <div
-        className="container"
-      >
-        {inputList.map((buttonElement, idx) => (
-          <div
-            key={idx}
-            className="locaseWrapper"
-          >
-            {buttonElement}
+      <button onClick={addButton}>Add a button</button>
+      <div className="container">
+        {buttons.length < 1 ? (
+          <div>
+            <p>No buttons added</p>
+          </div>
+          ) : (
+          buttons.map(button => (
+            <div key={button.id}>
+              <div>
+              <button
+                className="busSolverButton"
+                onClick={() => updateClickCount(button.id)}
+                type="button"
+              >
+                {`Button: ${button.number} Clicks: ${button.numClicks}`}
+              </button>
+            </div>
             <button
               className="busSolverButton deleteButton"
-              onClick={() => handleDeleteButton(idx)}
+              onClick={() => deleteButton(button.id)}
               type="button"
             >
-              {`DELETE BUTTON ${buttonElement.props.buttonNumber}`}
+              {`DELETE BUTTON ${button.number}`}
             </button>
           </div>
-        )
-        )}
-      </div>
-    </div>
-  );
-}
+        ))
+      )}
+		</div>
+  </div>
+)}
 
-export default App;
+export default App
